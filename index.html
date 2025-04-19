@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('d3cf64ff-6028-437c-ba11-151c37fed06f.jpg') center/cover no-repeat fixed;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            width: 95%;
+            max-width: 1200px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+                        0 10px 20px rgba(0, 0, 0, 0.2),
+                        inset 0 0 30px rgba(255, 255, 255, 0.1),
+                        0 0 50px rgba(107, 91, 185, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+                        0 10px 20px rgba(0, 0, 0, 0.2),
+                        inset 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .breathing-circle {
+            animation: breathe 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(0.8); opacity: 0.5; }     /* Start compressed */
+            25% { transform: scale(1.2); opacity: 0.8; }    /* Fully expanded */
+            50% { transform: scale(1.2); opacity: 0.8; }    /* Hold expanded */
+            75% { transform: scale(0.8); opacity: 0.5; }    /* Fully compressed */
+            100% { transform: scale(0.8); opacity: 0.5; }   /* Hold compressed */
+        }
+
+        .breathing-circle {
+            width: 100px;
+            height: 100px;
+            background: rgba(107, 91, 185, 0.3);
+            border-radius: 50%;
+            margin: 1rem auto;
+            animation: breathe 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            box-shadow: 0 0 30px rgba(107, 91, 185, 0.2);
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(0.8); opacity: 0.5; background: rgba(107, 91, 185, 0.3); }     /* Start compressed */
+            25% { transform: scale(1.2); opacity: 0.8; background: rgba(107, 91, 185, 0.6); }    /* Fully expanded */
+            50% { transform: scale(1.2); opacity: 0.8; background: rgba(107, 91, 185, 0.6); }    /* Hold expanded */
+            75% { transform: scale(0.8); opacity: 0.5; background: rgba(107, 91, 185, 0.3); }    /* Fully compressed */
+            100% { transform: scale(0.8); opacity: 0.5; background: rgba(107, 91, 185, 0.3); }   /* Hold compressed */
+        }
+
+        .title {
+            background: linear-gradient(45deg, #fff, #6b5bb9, #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
+                        inset 0 0 15px rgba(255, 255, 255, 0.2),
+                        0 0 20px rgba(107, 91, 185, 0.2);
+        }
+
+        .mood-option {
+            transition: all 0.3s ease;
+        }
+
+        .mood-option:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+                        0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        button {
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(107, 91, 185, 0.4),
+                        0 0 30px rgba(107, 91, 185, 0.3);
+        }
+        .emoji-text, button {
+    font-family: 'Segoe UI Emoji', 'Noto Color Emoji', 'Apple Color Emoji', sans-serif;
+}
+        .title {
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .chat-area {
+            height: 400px;
+            overflow-y: auto;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 15px;
+            margin-bottom: 0.75rem;
+            max-width: 80%;
+            word-wrap: break-word;
+            position: relative;
+            clear: both;
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .message:hover {
+            transform: scale(1.02);
+        }
+
+        @keyframes messageAppear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user-message {
+            float: right;
+            background: #6b5bb9;
+            color: white;
+        }
+
+        .message.bot-message {
+            float: left;
+            background: white;
+            color: #333;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: rgba(107, 91, 185, 0.15);
+            padding: 1.5rem;
+            border-radius: 15px;
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
+                      inset 0 0 15px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+        }
+
+        .breathing-circle {
+            width: 100px;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            margin: 1rem auto;
+            animation: breathe 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(0.8); opacity: 0.5; }     /* Start compressed */
+            25% { transform: scale(1.2); opacity: 0.8; }    /* Fully expanded */
+            50% { transform: scale(1.2); opacity: 0.8; }    /* Hold expanded */
+            75% { transform: scale(0.8); opacity: 0.5; }    /* Fully compressed */
+            100% { transform: scale(0.8); opacity: 0.5; }   /* Hold compressed */
+        }
+
+        .mood-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .mood-option {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #333;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .input-area {
+            display: flex;
+            gap: 1rem;
+        }
+
+        input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 25px;
+            background: white;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #6b5bb9;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .registration {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            letter-spacing: 1px;
+            word-spacing: 5px;
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="chat-section">
+            <h1 class="title">Mental Health Companion</h1>
+            <div class="chat-area">
+                <div class="message bot-message">Hello! How can I help you today?</div>
+            </div>
+            <div class="input-area">
+                <input type="text" placeholder="How are you feeling today?">
+                <button>➤</button>
+            </div>
+            <div class="registration">
+                <span>Sahil Ansari | 12320306</span>
+                <span>Kavyansh Gurjar | 12314223</span>
+            </div>
+        </div>
+        <div class="features">
+            <div class="feature-card">
+                <h3>Quick Wellness Tips</h3>
+                <p>Take deep breaths when feeling overwhelmed</p>
+            </div>
+            <div class="feature-card">
+                <h3>Breathing Exercise</h3>
+                <div class="breathing-circle"></div>
+                <p id="breathing-text" style="margin-top: 1rem; color: #fff; font-size: 1.1rem;">Breathe in deeply...</p>
+            </div>
+            <div class="feature-card">
+                <h3>Daily Mood Tracker</h3>
+                <div class="mood-options">
+                    <div class="mood-option">😊 Great</div>
+                    <div class="mood-option">🙂 Good</div>
+                    <div class="mood-option">😐 Okay</div>
+                    <div class="mood-option">😔 Down</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Function to fetch wellness tips from API
+        async function fetchWellnessTip() {
+            try {
+                const response = await fetch('/getAIResponse', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: "Give me a short inspiring quote about mental health, personal growth, or well-being that is maximum two lines long." })
+                });
+                const data = await response.json();
+                const tipElement = document.querySelector('.feature-card p');
+                // Split response into lines and take first two
+                const lines = data.response.split('\n').slice(0, 2).join('\n');
+                tipElement.textContent = lines;
+            } catch (error) {
+                console.error('Error fetching wellness tip:', error);
+            }
+        }
+
+        // Fetch wellness tip on page load and every minute
+        window.addEventListener('load', () => {
+            fetchWellnessTip();
+            setInterval(fetchWellnessTip, 60000); // Fetch new quote every minute
+        });
+
+        // Add interactivity
+        document.querySelector('input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        document.querySelector('button').addEventListener('click', sendMessage);
+
+        const supportiveResponses = [
+            "I understand that mental health challenges can be difficult. Would you like to explore some coping strategies together?",
+            "It's brave of you to share your feelings. Can you tell me more about what's troubling you?",
+            "Your emotional well-being is important. Let's work through this together. What support do you need right now?",
+            "Sometimes taking care of our mental health can be overwhelming. Would you like to try a quick breathing exercise?",
+            "You're taking an important step by reaching out. How long have you been feeling this way?",
+            "Remember, it's okay to not be okay. Would you like to explore some self-care techniques?",
+            "Your feelings are valid. Let's focus on what might help you feel more balanced right now.",
+            "Managing mental health is a journey. What coping strategies have worked for you in the past?",
+            "Taking care of your mental well-being is important. Would you like to try some mindfulness exercises?",
+            "You're showing strength by expressing your emotions. How can I support you today?"
+        ];
+
+        function getRandomResponse() {
+            return supportiveResponses[Math.floor(Math.random() * supportiveResponses.length)];
+        }
+
+        function addMessage(text, isResponse = false) {
+            const chatArea = document.querySelector('.chat-area');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = isResponse ? 'message bot-message' : 'message user-message';
+            
+            // Enhanced formatting for different content types
+            const formattedText = text
+                .split('\n\n')
+                .map(section => {
+                    section = section.trim();
+                    if (!section) return '';
+                    
+                    // Handle bullet points
+                    if (section.includes('* ')) {
+                        const items = section.split('\n* ').map(item => item.replace(/^\* /, ''));
+                        return `<div class="message-section">
+                            <ul style="margin: 0.5em 0; padding-left: 1.5em;">
+                                ${items.map(item => `<li style="margin: 0.5em 0;">${item}</li>`).join('')}
+                            </ul>
+                        </div>`;
+                    }
+                    
+                    // Handle headers (text between **)
+                    if (section.includes('**')) {
+                        section = section.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #6b5bb9;">$1</strong>');
+                    }
+                    
+                    // Regular paragraphs
+                    return `<div class="message-section">
+                        <p style="margin: 0.8em 0; line-height: 1.5;">${section.replace(/\n/g, '<br>')}</p>
+                    </div>`;
+                })
+                .filter(section => section)
+                .join('');
+            
+            messageDiv.innerHTML = formattedText;
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.querySelector('input');
+            const message = input.value.trim();
+            if (message) {
+                addMessage(message);
+                input.value = '';
+                
+                try {
+                    // Send the message to the backend (API call)
+                    const response = await fetch('/getAIResponse', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: message })
+                    });
+                    const data = await response.json();
+                    addMessage(data.response, true); // Display AI response in chat
+                } catch (error) {
+                    console.error('Error:', error);
+                    addMessage('Sorry, I encountered an error. Please try again.', true);
+                }
+            }
+        }
+
+        // Add mood-specific responses
+        const moodResponses = {
+            'Great': [
+                "Here's your daily dose of positivity: 'The only way to do great work is to love what you do.' - Steve Jobs",
+                "Keep shining! 'Happiness is not something ready-made. It comes from your own actions.' - Dalai Lama",
+                "Wonderful! 'Success is not final, failure is not fatal: it is the courage to continue that counts.' - Winston Churchill"
+            ],
+            'Good': [
+                "Remember: 'Every day may not be good, but there's something good in every day.' - Alice Morse Earle",
+                "Stay positive! 'The future belongs to those who believe in the beauty of their dreams.' - Eleanor Roosevelt",
+                "That's great! 'Life is 10% what happens to you and 90% how you react to it.' - Charles R. Swindoll"
+            ],
+            'Okay': [
+                "'Sometimes the smallest step in the right direction ends up being the biggest step of your life.'",
+                "'You don't have to see the whole staircase, just take the first step.' - Martin Luther King Jr.",
+                "'The greatest glory in living lies not in never falling, but in rising every time we fall.' - Nelson Mandela"
+            ],
+            'Down': [
+                "'Even the darkest night will end and the sun will rise.' - Victor Hugo",
+                "'In the middle of difficulty lies opportunity.' - Albert Einstein",
+                "'You are stronger than you know. More capable than you ever dreamed.' - Stephanie Malley"
+            ]
+        };
+
+        // Update mood tracking with responses
+        document.querySelectorAll('.mood-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.mood-option').forEach(opt => {
+                    opt.style.background = 'rgba(255, 255, 255, 0.2)';
+                });
+                this.style.background = 'rgba(255, 255, 255, 0.4)';
+                
+                const moodText = this.textContent.split(' ')[1];
+                const responses = moodResponses[moodText];
+                if (responses) {
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage("Based on your mood, here's an inspiring quote:", true);
+                    setTimeout(() => {
+                        addMessage(randomResponse, true);
+                    }, 500);
+                }
+            });
+        });
+
+
+
+        // Breathing circle animation with synchronized text
+        function updateBreathingText() {
+            const breathingText = document.getElementById('breathing-text');
+            const animationTime = 16000; // 16 seconds total
+            const phases = [
+                { text: 'Breathe in deeply...', duration: 4000 },
+                { text: 'Hold your breath...', duration: 4000 },
+                { text: 'Exhale slowly...', duration: 4000 },
+                { text: 'Rest...', duration: 4000 }
+            ];
+            
+            let currentPhase = 0;
+            
+            function updateText() {
+                breathingText.textContent = phases[currentPhase].text;
+                currentPhase = (currentPhase + 1) % phases.length;
+            }
+            
+            updateText(); // Initial text
+            setInterval(updateText, 4000); // Update every 4 seconds
+        }
+        
+        // Start the breathing text animation
+        updateBreathingText();
+    </script>
+</body>
+</html>
