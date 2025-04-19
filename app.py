@@ -205,3 +205,7 @@ def serve_static(path):
 
 if __name__ == "__main__":
     app.run(debug=True)
+debug_mode = os.environ.get("DEBUG", "False").lower() == "true"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=debug_mode)
