@@ -49,7 +49,7 @@
         }
 
         .chat-area {
-            height: 400px;
+            height: 500px; /* Increased height */
             overflow-y: auto;
             margin: 1rem 0;
             padding: 1rem;
@@ -137,14 +137,14 @@
         }
 
         .mood-option {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(107, 91, 185, 0.9); /* Changed to match start exercise button color */
             padding: 0.5rem;
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            color: #333;
+            color: #fff; /* Changed to white to match button text */
             font-weight: 500;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Adjusted for better readability on dark background */
         }
 
         .input-area {
@@ -175,7 +175,7 @@
         }
 
         .registration {
-            text-align: center;
+            text-align: left;  /* Changed from center to left */
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.8rem;
             margin-top: 0.5rem;
@@ -183,8 +183,12 @@
             word-spacing: 5px;
             padding: 5px 0;
             display: flex;
-            justify-content: space-around;
+            justify-content: flex-start;  /* Changed from space-around to flex-start */
             align-items: center;
+        }
+
+        .registration span {
+            margin-left: 1rem;  /* Added margin to the left of the span */
         }
     </style>
 </head>
@@ -202,18 +206,27 @@
             </div>
             <div class="registration">
                 <span>Sahil Ansari | 12320306</span>
-                <span>Kavyansh Gurjar | 12314223</span>
             </div>
         </div>
         <div class="features">
             <div class="feature-card">
-                <h3>Quick Wellness Tips</h3>
-                <p>Take deep breaths when feeling overwhelmed</p>
+                <div class="feature-card">
+                    <h3>Quick Wellness Tips</h3>
+                    <p style="background: rgba(107, 91, 185, 0.9); padding: 10px; border-radius: 10px; margin-top: 10px;">Take deep breaths when feeling overwhelmed</p>
+                </div>
             </div>
             <div class="feature-card">
                 <h3>Breathing Exercise</h3>
-                <div class="breathing-circle"></div>
-                <p id="breathing-text" style="margin-top: 1rem; color: #fff; font-size: 1.1rem;">Breathe in deeply...</p>
+                <div style="position: relative;">
+                    <div id="exercise-timer" style="position: absolute; top: 0; right: 0; background: rgba(107, 91, 185, 0.9); padding: 5px 10px; border-radius: 10px; font-size: 1.1rem;">00:00</div>
+                    <div id="cycle-counter" style="position: absolute; top: 0; left: 0; background: rgba(107, 91, 185, 0.9); padding: 5px 10px; border-radius: 10px; font-size: 1.1rem;">Cycles: 0</div>
+                    <div class="breathing-circle" style="animation-play-state: paused;"></div>
+                </div>
+                <p id="breathing-text" style="margin-top: 1rem; color: #fff; font-size: 1.1rem;">Click start to begin breathing exercise</p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button id="start-breathing" style="margin: 1rem auto; padding: 0.5rem 1.5rem; border-radius: 25px; width: auto; height: auto;">Start Exercise</button>
+                    <button id="cancel-breathing" style="margin: 1rem auto; padding: 0.5rem 1.5rem; border-radius: 25px; width: auto; height: auto; background: #dc3545; display: none;">Cancel Exercise</button>
+                </div>
             </div>
             <div class="feature-card">
                 <h3>Daily Mood Tracker</h3>
@@ -255,6 +268,14 @@
         document.querySelector('input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 sendMessage();
+            }
+        });
+
+        // Add input event listener to cancel breathing exercise
+        document.querySelector('input').addEventListener('input', function() {
+            const cancelButton = document.getElementById('cancel-breathing');
+            if (cancelButton && cancelButton.style.display === 'block') {
+                cancelButton.click(); // Simulate clicking the cancel button
             }
         });
 
@@ -368,9 +389,9 @@
         document.querySelectorAll('.mood-option').forEach(option => {
             option.addEventListener('click', function() {
                 document.querySelectorAll('.mood-option').forEach(opt => {
-                    opt.style.background = 'rgba(255, 255, 255, 0.2)';
+                    opt.style.background = 'rgba(107, 91, 185, 0.9)'; // Reset all to default color
                 });
-                this.style.background = 'rgba(255, 255, 255, 0.4)';
+                this.style.background = 'rgba(107, 91, 185, 1)'; // Make selected option slightly more opaque
                 
                 const moodText = this.textContent.split(' ')[1];
                 const responses = moodResponses[moodText];
@@ -389,6 +410,11 @@
         // Breathing circle animation with synchronized text
         function updateBreathingText() {
             const breathingText = document.getElementById('breathing-text');
+            const breathingCircle = document.querySelector('.breathing-circle');
+            const startButton = document.getElementById('start-breathing');
+            const cancelButton = document.getElementById('cancel-breathing');
+            const timerDisplay = document.getElementById('exercise-timer');
+            const cycleCounter = document.getElementById('cycle-counter');
             const animationTime = 16000; // 16 seconds total
             const phases = [
                 { text: 'Breathe in deeply...', duration: 4000 },
@@ -397,18 +423,90 @@
                 { text: 'Rest...', duration: 4000 }
             ];
             
+            let countdown;
+            let textInterval;
+            let timerInterval;
             let currentPhase = 0;
+            let seconds = 0;
+            let cycles = 0;
+            
+            function updateTimer() {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+                seconds++;
+            }
             
             function updateText() {
                 breathingText.textContent = phases[currentPhase].text;
+                if (currentPhase === 3) { // Only increment cycle after the "Rest" phase
+                    setTimeout(() => {
+                        cycles++;
+                        cycleCounter.textContent = `Cycles: ${cycles}`;
+                    }, 4000); // Wait for the rest phase to complete
+                }
                 currentPhase = (currentPhase + 1) % phases.length;
             }
             
-            updateText(); // Initial text
-            setInterval(updateText, 4000); // Update every 4 seconds
+            function startCountdown() {
+                let timeLeft = 10;
+                startButton.style.display = 'none';
+                cancelButton.style.display = 'block';
+                startButton.disabled = true;
+                breathingText.textContent = `Get ready! Starting in ${timeLeft} seconds...`;
+                seconds = 0;
+                cycles = 0; // Reset cycles when starting new exercise
+                timerDisplay.textContent = '00:00';
+                cycleCounter.textContent = 'Cycles: 0';
+                
+                countdown = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft > 0) {
+                        breathingText.textContent = `Get ready! Starting in ${timeLeft} seconds...`;
+                    } else {
+                        clearInterval(countdown);
+                        startBreathingExercise();
+                    }
+                }, 1000);
+            }
+            
+            function resetExercise() {
+                clearInterval(textInterval);
+                clearInterval(countdown);
+                clearInterval(timerInterval);
+                breathingCircle.style.animationPlayState = 'paused';
+                breathingCircle.style.animation = 'none';
+                breathingCircle.offsetHeight;
+                breathingCircle.style.animation = 'breathe 16s cubic-bezier(0.4, 0, 0.2, 1) infinite';
+                breathingCircle.style.animationPlayState = 'paused';
+                breathingText.textContent = 'Click start to begin breathing exercise';
+                startButton.disabled = false;
+                startButton.style.display = 'block';
+                cancelButton.style.display = 'none';
+                currentPhase = 0;
+                // Remove any cycle counter reset from here
+                // Keep the last cycle count visible
+            }
+            
+            function startBreathingExercise() {
+                timerInterval = setInterval(updateTimer, 1000);
+                updateTimer();
+                breathingCircle.style.animationPlayState = 'running';
+                updateText();
+                textInterval = setInterval(updateText, 4000);
+            }
+            
+            function cancelExercise() {
+                resetExercise();
+            }
+            
+            startButton.addEventListener('click', startCountdown);
+            cancelButton.addEventListener('click', cancelExercise);
+            
+            breathingCircle.addEventListener('animationend', resetExercise);
         }
         
-        // Start the breathing text animation
+        // Start the breathing text animation setup
         updateBreathingText();
     </script>
 </body>

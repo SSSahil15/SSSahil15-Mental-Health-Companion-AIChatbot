@@ -115,8 +115,9 @@ mental_health_keywords = {
     "harmed": 1.2,
     "harmful": 1.2,
     "hurt": 1.2,
-    "suicide": 1.2,
-    "suicidal": 1.2,
+    "suicide": 0.3,
+    "commit": 0.9,
+    "suicidal": 0.3,
     "suicidality": 1.2,
     "lonely": 1.2,
     "loneliness": 1.2,
@@ -294,7 +295,8 @@ mental_health_keywords = {
     "intellectual disability": 1.2,
     "alcohol use disorder": 1.2,
     "drug addiction": 1.2,
-    "substance-induced psychosis": 1.2
+    "substance-induced psychosis": 1.2,
+    "dizzy": 1.0,
 }  # Add this closing brace
 
 def is_mental_health_related(prompt):
