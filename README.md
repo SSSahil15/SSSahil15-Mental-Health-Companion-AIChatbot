@@ -102,6 +102,6 @@ This playful, poetic line appears when a user selects any mood — making respon
 ### 👤 Author
 
 Made with 💚 by **Sahil Ansari**  
-🔗 GitHub: [github.com/your-username](https://github.com/your-username) *(replace with your actual GitHub link)*
+🔗 GitHub: [github.com/your-username](https://github.com/SSSahil15)
 
 ---
