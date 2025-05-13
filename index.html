@@ -364,26 +364,102 @@
         // Add mood-specific responses
         const moodResponses = {
             'Great': [
+                // Original responses
                 "Here's your daily dose of positivity: 'The only way to do great work is to love what you do.' - Steve Jobs",
                 "Keep shining! 'Happiness is not something ready-made. It comes from your own actions.' - Dalai Lama",
-                "Wonderful! 'Success is not final, failure is not fatal: it is the courage to continue that counts.' - Winston Churchill"
+                "Wonderful! 'Success is not final, failure is not fatal: it is the courage to continue that counts.' - Winston Churchill",
+                // New modern responses
+                "You're glowing like a sunrise brewed in coffee — radiant and unstoppable!",
+                "Greatness suits you! The world better wear shades today.",
+                "Feeling great? That's the energy we all need bottled up!",
+                "You're basically sunshine on WiFi — bright, connected, and unstoppable.",
+                "That mood? Chef's kiss. Serve it with a smile and a sparkle!",
+                "When you're great, gravity steps aside — go fly high!",
+                "Your vibe just cured my imaginary bad day. Thanks for sharing!",
+                "Alert: This user is experiencing dangerously high levels of awesomeness!",
+                "You've leveled up in joy today. Gold star and confetti included!",
+                "Keep this energy — the universe might just promote you to mood ambassador!",
+                // Additional great responses
+                "You're radiating so much joy, even the sun's taking notes!",
+                "Your mood today just filed for its own zip code — pure greatness!",
+                "Someone woke up and chose sparkle — keep dazzling!",
+                "You're basically a walking good-vibes playlist today!",
+                "Mood level: Great. Side effects may include smiling at random objects!",
+                "You're the reason the birds are singing a bit louder today!",
+                "If greatness had a face, it'd probably look a lot like yours right now.",
+                "This kind of mood could power a small city — or at least a coffee shop!",
+                "You're not just great — you're 'screenshot this moment' great!",
+                "Whatever you're doing, it's working — you're glowing like a freshly charged phone!"
             ],
             'Good': [
+                // Original responses
                 "Remember: 'Every day may not be good, but there's something good in every day.' - Alice Morse Earle",
                 "Stay positive! 'The future belongs to those who believe in the beauty of their dreams.' - Eleanor Roosevelt",
-                "That's great! 'Life is 10% what happens to you and 90% how you react to it.' - Charles R. Swindoll"
+                "That's great! 'Life is 10% what happens to you and 90% how you react to it.' - Charles R. Swindoll",
+                // New responses
+                "You're on a good roll — keep that positive wheel turning!",
+                "Good days are like good coffee — smooth, energizing, and underrated.",
+                "You're doing well — and that's worth celebrating too!",
+                "Not too high, not too low — you're in the sweet spot today.",
+                "Good is the gateway to great — enjoy the moment!",
+                "Hey, a good mood is like good weather — makes everything better!",
+                "You're in the 'goldilocks zone' of moods — just right!",
+                "Solid vibes today — we love to see it!",
+                "Your smile is probably humming a happy tune right now!",
+                "Good mood activated. Next stop: Legendary!"
             ],
             'Okay': [
+                // Original responses
                 "'Sometimes the smallest step in the right direction ends up being the biggest step of your life.'",
                 "'You don't have to see the whole staircase, just take the first step.' - Martin Luther King Jr.",
-                "'The greatest glory in living lies not in never falling, but in rising every time we fall.' - Nelson Mandela"
+                "'The greatest glory in living lies not in never falling, but in rising every time we fall.' - Nelson Mandela",
+                // New responses
+                "Okay is a safe place — no rush, just breathe and be.",
+                "Some days are meant for coasting — today might just be one of them.",
+                "Okay is the middle ground where healing begins. You're doing just fine.",
+                "Even a flat line is part of the rhythm — don't worry, the beat will pick up.",
+                "You're okay, and that's completely okay.",
+                "It's not fireworks, but it's not a storm either — embrace the calm.",
+                "Some days are background music — still part of your masterpiece.",
+                "Okay moods are bridges — sometimes they lead to better days.",
+                "You showed up today. That's more than enough.",
+                "Pause. Breathe. You're exactly where you need to be."
             ],
             'Down': [
+                // Original responses
                 "'Even the darkest night will end and the sun will rise.' - Victor Hugo",
                 "'In the middle of difficulty lies opportunity.' - Albert Einstein",
-                "'You are stronger than you know. More capable than you ever dreamed.' - Stephanie Malley"
+                "'You are stronger than you know. More capable than you ever dreamed.' - Stephanie Malley",
+                // New responses
+                "It's okay to feel down. Even sunsets are beautiful while fading.",
+                "You're in a valley today, but that just means mountains are ahead.",
+                "If your heart feels heavy, let this message hold a little of the weight.",
+                "Rainy moods grow the strongest roots — hang in there.",
+                "Low battery? That's okay. Rest, recharge, return stronger.",
+                "Feeling down isn't failure — it's part of being wonderfully human.",
+                "You're not alone. Even clouds need a hug sometimes.",
+                "One day at a time. Even broken crayons still color.",
+                "It's okay to not be okay. You're still worthy of love and light.",
+                "Sending you digital hugs, soft pillows, and a playlist of better days."
             ]
         };
+
+        // ... existing code ...
+
+        // Add mood response intros
+        const moodIntros = [
+            "Brace yourself... your vibe has summoned a poetic prophecy!",
+            "Mood detected. Summoning the perfect emotional haiku…",
+            "Your aura just pinged the quote cloud. Here's what floated down!",
+            "Hold tight… the universe is delivering your custom vibe verse!",
+            "Mood unlocked! Generating your soul's fortune cookie...",
+            "Ah, the winds of emotion whisper this just for you…",
+            "Here's your daily drop of mood magic. Drink responsibly!",
+            "Poetry inbound. Your feelings have excellent taste!",
+            "Scanner beeped: Mood registered. Now decoding your emotional riddle…",
+            "A mood like yours deserves nothing less than a tailor-made punchline.",
+            "Hold my latte… here comes the most fitting line for your fabulous feels!"
+        ];
 
         // Update mood tracking with responses
         document.querySelectorAll('.mood-option').forEach(option => {
@@ -397,7 +473,8 @@
                 const responses = moodResponses[moodText];
                 if (responses) {
                     const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                    addMessage("Based on your mood, here's an inspiring quote:", true);
+                    const randomIntro = moodIntros[Math.floor(Math.random() * moodIntros.length)];
+                    addMessage(randomIntro, true);
                     setTimeout(() => {
                         addMessage(randomResponse, true);
                     }, 500);
